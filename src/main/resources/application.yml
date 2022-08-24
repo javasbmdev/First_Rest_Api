@@ -1,0 +1,21 @@
+server:
+  port: 4646
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    name: sa
+    password: ''
+    url: jdbc:h2:mem:springbootdb
+  jpa:
+    hibernate:
+      ddl-auto: update
+first-rest-api:
+  messages:
+    planSaveSucess: Plan saved sucessfully
+    planSaveFail: Plan not saved  	
+    planUpdateSucess: plan updated sucessfully
+    planUpdateFail: plan not updated
+    planDeleteSucess: plan deleted sucessfully
+    planDeleteFail: plan not deleted
+    planStatusChangeSucess: plan status changed 
+    planStatusChangeFail: plan status not changed

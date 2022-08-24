@@ -14,14 +14,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.constant.ApplicationConstants;
 import com.project.entities.Plan;
+import com.project.props.ApplicationProperty;
 import com.project.service.PlanSErvice;
-
 
 @RestController
 public class PlanRestController {
-	@Autowired
 	private PlanSErvice service;
+	Map<String, String> messages = null;
+
+	public PlanRestController(PlanSErvice service, ApplicationProperty applicationProperty) {
+		this.service = service;
+		messages = applicationProperty.getMessage();
+	}
 
 	@GetMapping("/categories")
 	public ResponseEntity<Map<Integer, String>> showPlanCategories() {
@@ -31,14 +37,14 @@ public class PlanRestController {
 
 	@PostMapping("/plan")
 	public ResponseEntity<String> savePlan(@RequestBody Plan plan) {
-		String resMessage = "";
+		String message = ApplicationConstants.EMPTY_STR;
 		boolean isSaved = service.savePlan(plan);
 		if (isSaved) {
-			resMessage = "plan saved sucessfully";
+			message = ApplicationConstants.PLAN_SAVE_SUCESS;
 		} else {
-			resMessage = "plan Not saved ";
+			message = ApplicationConstants.PLAN_SAVE_FAIL;
 		}
-		return new ResponseEntity<>(resMessage, HttpStatus.CREATED);
+		return new ResponseEntity<>(message, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/show-plans")
@@ -56,35 +62,35 @@ public class PlanRestController {
 	@PutMapping("/plan")
 	public ResponseEntity<String> updatePlan(@RequestBody Plan plan) {
 		boolean isUpddated = service.updatePlan(plan);
-		String resMessage = "";
+		String resMessage = ApplicationConstants.EMPTY_STR;
 		if (isUpddated) {
-			resMessage = "plan upadated sucessfully";
+			resMessage = ApplicationConstants.PLAN_UPDATE_SUCESS;
 		} else {
-			resMessage = "plna not updated";
+			resMessage = ApplicationConstants.PLAN_UPDATE_FAIL;
 		}
 		return new ResponseEntity<>(resMessage, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/plan/{planId}")
 	public ResponseEntity<String> deletePlan(@PathVariable Integer planId) {
-		String resMessage = "";
+		String resMessage = ApplicationConstants.EMPTY_STR;
 		boolean isdeleted = service.deletePlanById(planId);
 		if (isdeleted) {
-			resMessage = "plan with planId " + planId + "deleted sucessfully ";
+			resMessage = ApplicationConstants.PLAN_DELETE_SUCESS;
 		} else {
-			resMessage = "plan not deleted ";
+			resMessage = ApplicationConstants.PLAN_DELETE_FAIL;
 		}
 		return new ResponseEntity<>(resMessage, HttpStatus.OK);
 	}
 
 	@PutMapping("/change-status/{planId}/{status}")
-	public ResponseEntity<String> changeStatus(@PathVariable Integer planId,@PathVariable String status) {
-		String resMessage = "";
+	public ResponseEntity<String> changeStatus(@PathVariable Integer planId, @PathVariable String status) {
+		String resMessage = ApplicationConstants.EMPTY_STR;
 		boolean isStatusChanged = service.planStatusChange(planId, status);
 		if (isStatusChanged) {
-			resMessage = "status changed";
+			resMessage = ApplicationConstants.PLAN_STATUS_CHANGE_SUCESS;
 		} else {
-			resMessage = "sttatus not changed";
+			resMessage = ApplicationConstants.PLAN_STATUS_CHANGE_FAIL;
 		}
 		return new ResponseEntity<String>(resMessage, HttpStatus.OK);
 	}

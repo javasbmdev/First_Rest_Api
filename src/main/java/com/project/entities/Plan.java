@@ -15,10 +15,10 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "plan_manager")
+@Table(name = "plan_master")
 public class Plan {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "plan_id")
 	private Integer planId;
 	@Column(name = "plan_name")
